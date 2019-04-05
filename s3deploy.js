@@ -1,4 +1,4 @@
-const { info, error, done } = require('@vue/cli-shared-utils')
+const { info, error, done, stopSpinner } = require('@vue/cli-shared-utils')
 const path = require('path')
 const fs = require('fs-extra')
 const mime = require('mime-types')
