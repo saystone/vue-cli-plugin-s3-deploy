@@ -304,12 +304,9 @@ module.exports = async (options, api) => {
   options.uploadOptions = { partSize: (5 * 1024 * 1024), queueSize: 4 }
 
   const deployDirPath = getFullPath(deployDir)
-  const filesToDeploy = getAllFiles(deployDirPath)
   let filesToGzip = []
 
   const bucketDeployPath = parseDeployPath(options.deployPath)
-  const uploadTotal = filesToDeploy.length
-  let uploadCount = 0
 
   const remotePath = options.staticHosting
     ? `https://s3-${options.region}.amazonaws.com/${options.bucket}/`
@@ -323,6 +320,10 @@ module.exports = async (options, api) => {
 
     await gzipFiles(filesToGzip)
   }
+
+  const filesToDeploy = getAllFiles(deployDirPath)
+  const uploadTotal = filesToDeploy.length
+  let uploadCount = 0
 
   const uploadPool = new PromisePool(() => {
     if (filesToDeploy.length === 0) return null
